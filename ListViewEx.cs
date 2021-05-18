@@ -52,6 +52,16 @@ namespace ListViewEx {
         public event SubItemEventHandler SubItemBeginEditing;
         public event SubItemEndEditingEventHandler SubItemEndEditing;
 
+        private bool _isEditing;
+
+        public bool IsEditing
+        {
+            get
+            {
+                return _isEditing;
+            }
+        }
+
         public ListViewEx() {
             // This	call is	required by	the	Windows.Forms Form Designer.
             InitializeComponent();
@@ -266,6 +276,7 @@ namespace ListViewEx {
         /// <param name="Item">ListViewItem to edit</param>
         /// <param name="SubItem">SubItem index to edit</param>
         public void StartEditing(Control c, ListViewItem Item, int SubItem) {
+            _isEditing = true;
             OnSubItemBeginEditing(new SubItemEventArgs(Item, SubItem));
 
             Rectangle rcSubItem = GetSubItemBounds(Item, SubItem);
@@ -332,6 +343,7 @@ namespace ListViewEx {
         /// </summary>
         /// <param name="AcceptChanges">Use the _editingControl's Text as new SubItem text or discard changes?</param>
         public void EndEditing(bool AcceptChanges) {
+            _isEditing = false;
             if (_editingControl == null)
                 return;
 
